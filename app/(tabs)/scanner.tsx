@@ -14,7 +14,7 @@ export default function ScannerScreen() {
   const [currentPassage, setCurrentPassage] = useState(null);
   const [initialNodeName, setInitialNodeName] = useState(null);
   const isFocused = useIsFocused();
-  const { addVisitedNode, addFlag, hasFlag } = useGame();
+  const { addVisitedNode, addFlag, hasFlag, flags } = useGame();
   const router = useRouter();
 
   useEffect(() => {
@@ -24,6 +24,11 @@ export default function ScannerScreen() {
       setInitialNodeName(null);
     }
   }, [isFocused]);
+
+  // Log current flags whenever they change
+  useEffect(() => {
+    console.log('FLAGS →', [...flags]);
+  }, [flags]);
 
   const findPassageByTag = (tag) => {
     return scenario.passages.find(passage => {
@@ -78,6 +83,16 @@ export default function ScannerScreen() {
         nextPassage.tags.forEach(tag => {
           if (tag.startsWith('SET_')) {
             addFlag(tag.substring(4));
+          }
+        });
+      }
+
+      // Log any flag requirements for links
+      if (nextPassage.links) {
+        nextPassage.links.forEach(link => {
+          const flagMatch = link.link?.match(/\|IF:(\w+)$/);
+          if (flagMatch) {
+            console.log('LINK', link.name, 'WYMAGA', flagMatch[1]);
           }
         });
       }
