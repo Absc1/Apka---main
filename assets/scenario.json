@@ -1,0 +1,200 @@
+{
+  "passages": [
+    {
+      "text": "Ej, czego chcesz?\n\n[[Chcę zacząć pracę jako czeladnik]]\n[[Chcę dostać miecz]]",
+      "links": [
+        {
+          "name": "Chcę zacząć pracę jako czeladnik",
+          "link": "Chcę zacząć pracę jako czeladnik",
+          "pid": "3"
+        },
+        {
+          "name": "Chcę dostać miecz",
+          "link": "Chcę dostać miecz",
+          "pid": "4"
+        }
+      ],
+      "name": "Kowal",
+      "pid": "1",
+      "position": {
+        "x": "850",
+        "y": "375"
+      },
+      "tags": [
+        "QR1"
+      ]
+    },
+    {
+      "text": "qweqwe",
+      "name": "qq",
+      "pid": "2",
+      "position": {
+        "x": "2600",
+        "y": "200"
+      }
+    },
+    {
+      "text": "Nie mam teraz czasu.\n\n[[Ok, nie przeszkadzam]]\n[[Coś się stało?]]",
+      "links": [
+        {
+          "name": "Ok, nie przeszkadzam",
+          "link": "Ok, nie przeszkadzam",
+          "pid": "5"
+        },
+        {
+          "name": "Coś się stało?",
+          "link": "Coś się stało?",
+          "pid": "6"
+        }
+      ],
+      "name": "Chcę zacząć pracę jako czeladnik",
+      "pid": "3",
+      "position": {
+        "x": "1150",
+        "y": "550"
+      }
+    },
+    {
+      "text": "A idź do diabała!\n\n[[Sam idź!]]",
+      "links": [
+        {
+          "name": "Sam idź!",
+          "link": "Sam idź!",
+          "pid": "9"
+        }
+      ],
+      "name": "Chcę dostać miecz",
+      "pid": "4",
+      "position": {
+        "x": "1125",
+        "y": "200"
+      }
+    },
+    {
+      "text": "",
+      "name": "Ok, nie przeszkadzam",
+      "pid": "5",
+      "position": {
+        "x": "1475",
+        "y": "725"
+      }
+    },
+    {
+      "text": "Mój kuzyn zniknął.\n\n[[Jak to zniknął?]]",
+      "links": [
+        {
+          "name": "Jak to zniknął?",
+          "link": "Jak to zniknął?",
+          "pid": "7"
+        }
+      ],
+      "name": "Coś się stało?",
+      "pid": "6",
+      "position": {
+        "x": "1450",
+        "y": "525"
+      }
+    },
+    {
+      "text": "Nie zjawił się wczoraj w pracy - nikt nie widział go od rzech dni.\n\n[[Poszukam go wobec tego! (FLAG)]]\n[[NIe interesuje mnie, gdzie podział się twój kuzyn!]]",
+      "links": [
+        {
+          "name": "Poszukam go wobec tego! (FLAG)",
+          "link": "Poszukam go wobec tego! (FLAG)",
+          "pid": "8"
+        },
+        {
+          "name": "NIe interesuje mnie, gdzie podział się twój kuzyn!",
+          "link": "NIe interesuje mnie, gdzie podział się twój kuzyn!",
+          "pid": "12"
+        }
+      ],
+      "name": "Jak to zniknął?",
+      "pid": "7",
+      "position": {
+        "x": "1625",
+        "y": "425"
+      }
+    },
+    {
+      "text": "Dzięki! Zacznij od pogadania karczmarką!",
+      "name": "Poszukam go wobec tego! (FLAG)",
+      "pid": "8",
+      "position": {
+        "x": "1925",
+        "y": "375"
+      },
+      "tags": [
+        "SET_know_about_missing_cousin"
+      ]
+    },
+    {
+      "text": "Wygląda na to, że trzeba złoić ci skórę.",
+      "name": "Sam idź!",
+      "pid": "9",
+      "position": {
+        "x": "1375",
+        "y": "200"
+      },
+      "tags": [
+        "IMG_Angry_Kowal"
+      ]
+    },
+    {
+      "text": "Hej, młody, chcesz coś do picia?\n\n[[Pewnie!]]\n[[Słyszałaś o kuzynie kowala?|Słyszałaś o kuzynie kowala?]]\n",
+      "links": [
+        {
+          "name": "Pewnie!",
+          "link": "Pewnie!",
+          "pid": "11"
+        },
+        {
+          "name": "Słyszałaś o kuzynie kowala?|Słyszałaś o kuzynie kowala?",
+          "link": "Słyszałaś o kuzynie kowala?|Słyszałaś o kuzynie kowala?",
+          "broken": true
+        }
+      ],
+      "name": "Karczmarka",
+      "pid": "10",
+      "position": {
+        "x": "875",
+        "y": "1000"
+      },
+      "tags": [
+        "QR2"
+      ]
+    },
+    {
+      "text": "Dwa złote!",
+      "name": "Pewnie!",
+      "pid": "11",
+      "position": {
+        "x": "1225",
+        "y": "1050"
+      }
+    },
+    {
+      "text": "Jeszcze jeden nieczuły młokos!",
+      "name": "NIe interesuje mnie, gdzie podział się twój kuzyn!",
+      "pid": "12",
+      "position": {
+        "x": "1875",
+        "y": "575"
+      }
+    },
+    {
+      "text": "Ciśśś! Nie tutaj!",
+      "name": "Słyszałaś o kuzynie kowala?",
+      "pid": "13",
+      "position": {
+        "x": "1225",
+        "y": "850"
+      }
+    }
+  ],
+  "name": "Untitled Story 2",
+  "startnode": "1",
+  "creator": "Twine",
+  "creator-version": "2.10.0",
+  "ifid": "6DF831F9-8C42-44E7-AD95-B530C7620753"
+}
