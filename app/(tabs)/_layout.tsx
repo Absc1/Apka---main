@@ -1,38 +1,26 @@
 import { Tabs } from 'expo-router';
-import { Chrome as Home, QrCode } from 'lucide-react-native';
+import { Home, QrCode } from 'lucide-react-native';
 
-export default function TabLayout() {
+export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
+        headerShown: false,
         tabBarActiveTintColor: '#007AFF',
-        tabBarInactiveTintColor: '#8E8E93',
-        tabBarStyle: {
-          backgroundColor: '#F2F2F7',
-          borderTopWidth: 1,
-          borderTopColor: '#D1D1D6',
-        },
-        headerStyle: {
-          backgroundColor: '#F2F2F7',
-        },
-        headerTitleStyle: {
-          fontWeight: '600',
-        },
-      }}>
+      }}
+    >
       <Tabs.Screen
-        name="index"
+        name="index"                 // = app/(tabs)/index.tsx
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
-          headerTitle: 'QR Scanner',
+          title: 'Start',
+          tabBarIcon: ({ color, size }) => <Home color={color} size={size} />,
         }}
       />
       <Tabs.Screen
-        name="scanner"
+        name="scanner"               // = app/(tabs)/scanner.tsx
         options={{
-          title: 'Scan',
-          tabBarIcon: ({ color, size }) => <QrCode size={size} color={color} />,
-          headerTitle: 'Scan QR Code',
+          title: 'Scanner',
+          tabBarIcon: ({ color, size }) => <QrCode color={color} size={size} />,
         }}
       />
     </Tabs>
