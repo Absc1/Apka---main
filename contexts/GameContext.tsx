@@ -1,13 +1,20 @@
 // contexts/GameContext.tsx
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const STORAGE_KEY = 'BOARDGAME_STATE';
 
-type Flags = Set<string>;
+type Flags   = Set<string>;
 type Visited = Set<string>;
 
 type GameCtx = {
+  sessionId: string;
   flags: Flags;
   visited: Visited;
   hasFlag: (name: string) => boolean;
@@ -20,40 +27,59 @@ type GameCtx = {
 const GameContext = createContext<GameCtx | null>(null);
 
 export const GameProvider = ({ children }: { children: ReactNode }) => {
-  const [flags, setFlags] = useState<Flags>(new Set());
+  /** --------- stan gry --------- */
+  const [flags,   setFlags]   = useState<Flags>(new Set());
   const [visited, setVisited] = useState<Visited>(new Set());
+  /** --------- identyfikator sesji (do remountu appki) --------- */
+  const [sessionId, setSessionId] = useState(() => Date.now().toString());
 
-  /* ----------  FLAGI  ---------- */
+  /** --------- flagi --------- */
   const hasFlag = (name: string) => flags.has(name);
-
   const addFlag = (name: string) =>
-    setFlags(prev => {
-      const next = new Set(prev).add(name);
-      console.log('ADD FLAG →', name, [...next]);
-      return next;
-    });
+    setFlags(prev => new Set(prev).add(name));
 
-  /* ----------  VISITED NODES  ---------- */
+  /** --------- odwiedzone węzły --------- */
   const isVisited = (id: string) => visited.has(id);
-
   const addVisitedNode = (id: string) =>
-    setVisited(prev => {
-      const next = new Set(prev).add(id);
-      console.log('VISIT NODE →', id, [...next]);
-      return next;
-    });
+    setVisited(prev => new Set(prev).add(id));
 
-  /* ----------  RESET CAŁEJ GRY  ---------- */
+  /** --------- reset całej gry --------- */
   const resetGame = async () => {
     console.log('RESET GAME!');
     setFlags(new Set());
     setVisited(new Set());
-    await AsyncStorage.removeItem(STORAGE_KEY);
+    setSessionId(Date.now().toString());        // wymusza remount
+    await AsyncStorage.removeItem(STORAGE_KEY); // czysty storage
   };
+
+  /** --------- jednorazowe wczytanie zapisu --------- */
+  useEffect(() => {
+    (async () => {
+      const saved = await AsyncStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          const { flags: f = [], visited: v = [] } = JSON.parse(saved);
+          setFlags(new Set(f));
+          setVisited(new Set(v));
+        } catch {
+          await AsyncStorage.removeItem(STORAGE_KEY);
+        }
+      }
+    })();
+  }, [sessionId]); // po resetGame() hook NIE załaduje starych flag
+
+  /** --------- auto-zapis przy każdej zmianie --------- */
+  useEffect(() => {
+    AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ flags: [...flags], visited: [...visited] }),
+    );
+  }, [flags, visited]);
 
   return (
     <GameContext.Provider
       value={{
+        sessionId,
         flags,
         visited,
         hasFlag,
