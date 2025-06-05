@@ -1,11 +1,16 @@
 // app/_layout.tsx
 import { Stack } from 'expo-router';
-import { GameProvider } from '@/contexts/GameContext';
+import { GameProvider, useGame } from '@/contexts/GameContext';
 
-const { sessionId } = useGame();
+function InnerNavigator() {
+  const { sessionId } = useGame();
+  return <Stack key={sessionId} screenOptions={{ headerShown: false }} />;
+}
 
-return (
-  <GameProvider>
-    <Stack key={sessionId} screenOptions={{ headerShown: false }} />
-  </GameProvider>
-);
+export default function RootLayout() {
+  return (
+    <GameProvider>
+      <InnerNavigator /> {/* <- tu działa useGame, bo jest w Providerze */}
+    </GameProvider>
+  );
+}
