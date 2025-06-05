@@ -1,3 +1,4 @@
+// app/(tabs)/index.tsx
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useGame } from '@/contexts/GameContext';
@@ -10,8 +11,8 @@ export default function StartScreen() {
   const goToScanner = () => router.push('/(tabs)/scanner');
 
   const endGame = async () => {
-    await resetGame();          // zerujemy flagi + AsyncStorage
-    router.replace('/');        // wracamy do MENU
+    await resetGame();            // czyścimy flagi
+    router.replace('../../');     // wracamy do MENU
   };
 
   return (
