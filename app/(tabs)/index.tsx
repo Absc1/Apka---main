@@ -10,10 +10,7 @@ export default function StartScreen() {
 
   const goToScanner = () => router.push('/(tabs)/scanner');
 
-  const endGame = async () => {
-    await resetGame();            // czyścimy flagi
-    router.replace('/');     // wracamy do MENU
-  };
+ 
 
   return (
     <View style={styles.container}>
