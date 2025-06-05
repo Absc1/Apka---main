@@ -1,3 +1,4 @@
+import { router } from 'expo-router'; 
 // contexts/GameContext.tsx
 import React, {
   createContext,
