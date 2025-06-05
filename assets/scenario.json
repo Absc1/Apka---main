@@ -141,7 +141,7 @@
       ]
     },
     {
-      "text": "Hej, młody, chcesz coś do picia?\n\n[[Pewnie!]]\n[[Słyszałaś o kuzynie kowala?|Słyszałaś o kuzynie kowala?]]\n",
+      "text": "Hej, młody, chcesz coś do picia?\n\n[[Pewnie!]]\n[[Słyszałaś o kuzynie kowala?|IF_know_about_missing_cousin]]\n",
       "links": [
         {
           "name": "Pewnie!",
@@ -149,8 +149,8 @@
           "pid": "11"
         },
         {
-          "name": "Słyszałaś o kuzynie kowala?|Słyszałaś o kuzynie kowala?",
-          "link": "Słyszałaś o kuzynie kowala?|Słyszałaś o kuzynie kowala?",
+          "name": "Słyszałaś o kuzynie kowala?|IF_know_about_missing_cousin",
+          "link": "Słyszałaś o kuzynie kowala?|IF_know_about_missing_cousin",
           "broken": true
         }
       ],
@@ -169,8 +169,8 @@
       "name": "Pewnie!",
       "pid": "11",
       "position": {
-        "x": "1225",
-        "y": "1050"
+        "x": "1200",
+        "y": "1025"
       }
     },
     {
@@ -183,16 +183,16 @@
       }
     },
     {
-      "text": "Ciśśś! Nie tutaj!",
-      "name": "Słyszałaś o kuzynie kowala?",
+      "text": "Ciśś, nie tutaj!",
+      "name": "IF_know_about_missing_cousin",
       "pid": "13",
       "position": {
-        "x": "1225",
-        "y": "850"
+        "x": "1200",
+        "y": "875"
       }
     }
   ],
-  "name": "Untitled Story 2",
+  "name": "Scenariusz testowy",
   "startnode": "1",
   "creator": "Twine",
   "creator-version": "2.10.0",
