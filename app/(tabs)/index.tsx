@@ -6,15 +6,22 @@ import { QrCode, X } from 'lucide-react-native';
 
 export default function StartScreen() {
   const router = useRouter();
-  const { resetGame } = useGame();
+  const { resetGame, flags } = useGame();
 
   /* ---------- PRZYCISK SCAN ---------- */
   const goToScanner = () => router.push('/(tabs)/scanner');
 
   /* ---------- PRZYCISK END GAME ---------- */
   const endGame = async () => {
-    await resetGame();                       // 1) zeruj stan gry
-    router.replace('/');                     // 2) przejdź do menu głównego
+    console.log('End Game clicked - current flags:', [...flags]);
+    console.log('Starting game reset...');
+    
+    await resetGame();
+    console.log('Game reset completed - flags should be empty now');
+    
+    console.log('Navigating to main menu...');
+    router.replace('/');
+    console.log('Navigation completed');
   };
 
   return (
