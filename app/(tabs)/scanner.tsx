@@ -1,3 +1,4 @@
+// app/(tabs)/scanner.tsx
 import { useState, useEffect } from 'react';
 import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
@@ -6,17 +7,27 @@ import { useRouter } from 'expo-router';
 import scenario from '@/assets/scenario.json';
 import StoryNode from '@/components/StoryNode';
 import { useGame } from '@/contexts/GameContext';
-import { Chrome as Home, QrCode } from 'lucide-react-native';
+import { QrCode } from 'lucide-react-native';
+
+/* -------- mapy węzłów -------- */
+const passagesByPid   = Object.fromEntries(
+  scenario.passages.map(p => [p.pid, p]),
+);
+const passagesByName  = Object.fromEntries(
+  scenario.passages.map(p => [p.name, p]),
+);
 
 export default function ScannerScreen() {
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
   const [currentPassage, setCurrentPassage] = useState(null);
   const [initialNodeName, setInitialNodeName] = useState(null);
-  const isFocused = useIsFocused();
-  const { addVisitedNode, addFlag, hasFlag, flags } = useGame();
-  const router = useRouter();
 
+  const isFocused = useIsFocused();
+  const router    = useRouter();
+  const { addVisitedNode, addFlag, hasFlag, flags } = useGame();
+
+  /* -------- reset przy opuszczeniu ekranu -------- */
   useEffect(() => {
     if (!isFocused) {
       setScanned(false);
@@ -25,97 +36,73 @@ export default function ScannerScreen() {
     }
   }, [isFocused]);
 
-  // Log current flags whenever they change
+  /* -------- log flag dla debugu -------- */
   useEffect(() => {
     console.log('FLAGS →', [...flags]);
   }, [flags]);
 
-  const findPassageByTag = (tag) => {
-    return scenario.passages.find(passage => {
-      if (!passage.tags) return false;
-      return passage.tags.some(t => t.toLowerCase().trim() === tag.toLowerCase().trim());
+  /* -------- znajdź węzeł po tagu QRn -------- */
+  const findPassageByTag = (tag: string) =>
+    scenario.passages.find(
+      p => p.tags?.some(t => t.trim().toLowerCase() === tag.trim().toLowerCase()),
+    );
+
+  /* -------- obsługa skanu -------- */
+  const handleScan = ({ data }) => {
+    const passage = findPassageByTag(data.trim());
+    if (!passage) return;
+
+    setScanned(true);
+    setCurrentPassage(passage);
+    if (!initialNodeName) setInitialNodeName(passage.name);
+    addVisitedNode(passage.pid);
+
+    passage.tags?.forEach(tag => {
+      if (tag.startsWith('SET_')) addFlag(tag.slice(4));
     });
   };
 
-  const handleScan = ({ data }) => {
-    const trimmedData = data.trim();
-    const passage = findPassageByTag(trimmedData);
-    
-    if (passage) {
-      setScanned(true);
-      setCurrentPassage(passage);
-      if (!initialNodeName) {
-        setInitialNodeName(passage.name);
-      }
-      
-      addVisitedNode(passage.pid);
-      
-      if (passage.tags) {
-        passage.tags.forEach(tag => {
-          if (tag.startsWith('SET_')) {
-            addFlag(tag.substring(4));
-          }
-        });
-      }
-    }
-  };
-
+  /* -------- wybór linku -------- */
   const handleChoiceSelect = (pid, linkText) => {
-    console.log('handleChoiceSelect called with:', { pid, linkText });
-    
-    const displayText = linkText.split('|')[0];
-    console.log('Display text:', displayText);
-    
-    let nextPassage = scenario.passages.find(p => p.name === displayText);
-    console.log('Found passage by display text:', nextPassage);
+    let next =
+      scenario.passages.find(p => p.pid === pid) ??
+      scenario.passages.find(p => p.name === linkText.split('|')[0]);
 
-    if (!nextPassage) {
-      nextPassage = scenario.passages.find(p => p.pid === pid);
-      console.log('Found passage by pid:', nextPassage);
+    if (!next) {
+      console.log('No matching passage found!'); return;
     }
+    setCurrentPassage(next);
+    addVisitedNode(next.pid);
 
-    if (nextPassage) {
-      console.log('Setting next passage:', nextPassage);
-      setCurrentPassage(nextPassage);
-      addVisitedNode(nextPassage.pid);
-      
-      if (nextPassage.tags) {
-        nextPassage.tags.forEach(tag => {
-          if (tag.startsWith('SET_')) {
-            addFlag(tag.substring(4));
-          }
-        });
-      }
-
-      // Log any flag requirements for links
-      if (nextPassage.links) {
-        nextPassage.links.forEach(link => {
-          const flagMatch = link.link?.match(/\|IF:(\w+)$/);
-          if (flagMatch) {
-            console.log('LINK', link.name, 'WYMAGA', flagMatch[1]);
-          }
-        });
-      }
-    } else {
-      console.log('No matching passage found!');
-    }
+    next.tags?.forEach(tag => {
+      if (tag.startsWith('SET_')) addFlag(tag.slice(4));
+    });
   };
 
-  const returnToScanning = () => {
-    router.back();
-  };
+  /* -------- filtr linków wg tagu IF_... w węźle docelowym -------- */
+  const filterLinks = (links = []) =>
+    links.filter(l => {
+      const target =
+        passagesByPid[l.pid] ??
+        passagesByName[l.link] ??
+        passagesByName[l.name];
 
-  if (!permission) {
-    return <Text>Ładowanie kamery…</Text>;
-  }
-  if (!permission.granted) {
-    return (
-      <View style={styles.center}>
-        <Text>Brak dostępu do kamery</Text>
-        <Button title="Zezwól" onPress={requestPermission} />
-      </View>
-    );
-  }
+      const condTag = target?.tags?.find(t => t.startsWith('IF_'));
+      const cond    = condTag ? condTag.slice(3) : undefined;
+
+      return !cond || flags.has(cond);
+    });
+
+  const returnToScanning = () => router.back();
+
+  /* -------- UI -------- */
+  if (!permission)         return <Text>Ładowanie kamery…</Text>;
+  if (!permission.granted) return (
+    <View style={styles.center}>
+      <Text>Brak dostępu do kamery</Text>
+      <Button title="Zezwól" onPress={requestPermission} />
+    </View>
+  );
 
   return (
     <View style={{ flex: 1 }}>
@@ -123,34 +110,21 @@ export default function ScannerScreen() {
         <CameraView
           style={{ flex: 1 }}
           onBarcodeScanned={handleScan}
-          barcodeScannerSettings={{
-            barcodeTypes: ['qr'],
-          }}
+          barcodeScannerSettings={{ barcodeTypes: ['qr'] }}
         />
       ) : (
         <View style={styles.dialogContainer}>
           {currentPassage && (
             <StoryNode
               text={currentPassage.text}
-              links={currentPassage.links?.filter(link => {
-                if (!link.link) return false;
-                console.log('Checking link:', link);
-                const match = link.link.match(/\|IF:(\w+)$/);
-                if (!match) return true;
-                const requiredFlag = match[1];
-                const hasRequiredFlag = hasFlag(requiredFlag);
-                console.log('Link has flag requirement:', requiredFlag, 'Has flag:', hasRequiredFlag);
-                return hasRequiredFlag;
-              })}
+              links={filterLinks(currentPassage.links)}
               onChoiceSelect={handleChoiceSelect}
               name={initialNodeName || currentPassage.name}
             />
           )}
           {(!currentPassage?.links || currentPassage.links.length === 0) && (
             <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={returnToScanning}>
+              <TouchableOpacity style={styles.button} onPress={returnToScanning}>
                 <QrCode size={20} color="#fff" style={styles.buttonIcon} />
                 <Text style={styles.buttonText}>Zakończ dialog</Text>
               </TouchableOpacity>
@@ -163,11 +137,7 @@ export default function ScannerScreen() {
 }
 
 const styles = StyleSheet.create({
-  center: { 
-    flex: 1, 
-    justifyContent: 'center', 
-    alignItems: 'center' 
-  },
+  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   dialogContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -190,12 +160,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
   },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  buttonIcon: {
-    marginRight: 8,
-  },
+  buttonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+  buttonIcon: { marginRight: 8 },
 });
