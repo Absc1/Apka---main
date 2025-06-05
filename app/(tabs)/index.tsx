@@ -14,10 +14,7 @@ export default function StartScreen() {
   /* ---------- PRZYCISK END GAME ---------- */
   const endGame = async () => {
     await resetGame();                       // 1) zeruj stan gry
-    router.reset({                           // 2) wyrzuć stary stos
-      index: 0,
-      routes: [{ name: '/' }],               // jedyny pozostały ekran = MENU
-    });
+    router.replace('/');                     // 2) przejdź do menu głównego
   };
 
   return (
