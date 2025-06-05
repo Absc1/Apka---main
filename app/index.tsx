@@ -1,3 +1,4 @@
+// app/index.tsx
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Play } from 'lucide-react-native';
@@ -8,8 +9,8 @@ export default function MenuScreen() {
   const { resetGame } = useGame();
 
   const handleStartNewGame = async () => {
-    await resetGame();
-    router.replace('/(tabs)');        // ⬅️ przenosi od razu do zakładek
+    await resetGame();               // pełen reset flag
+    router.replace('/(tabs)');       // przejście do zakładek
   };
 
   return (
