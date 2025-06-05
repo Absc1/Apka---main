@@ -10,7 +10,13 @@ export default function StartScreen() {
 
   const goToScanner = () => router.push('/(tabs)/scanner');
 
- 
+ const endGame = async () => {
+  await resetGame();                            // wyczyść flagi, visited, storage
+  router.reset({                                // ⇦ wyrzuć cały stary stos
+    index: 0,
+    routes: [{ name: '/' }],                    // jedyny ekran = MENU
+  });
+};
 
   return (
     <View style={styles.container}>
