@@ -12,7 +12,7 @@ export default function StartScreen() {
 
   const endGame = async () => {
     await resetGame();            // czyścimy flagi
-    router.replace('../../');     // wracamy do MENU
+    router.replace('/');     // wracamy do MENU
   };
 
   return (
