@@ -13,15 +13,11 @@ export default function StartScreen() {
 
   /* ---------- PRZYCISK END GAME ---------- */
   const endGame = async () => {
-    console.log('End Game clicked - current flags:', [...flags]);
-    console.log('Starting game reset...');
-    
-    await resetGame();
-    console.log('Game reset completed - flags should be empty now');
-    
-    console.log('Navigating to main menu...');
+    console.log('--- KLIK: End game');          // ①
+    await resetGame();                           // zeruj stan
+    console.log('--- PO resetGame, nawiguję');   // ②
+
     router.replace('/');
-    console.log('Navigation completed');
   };
 
   return (
