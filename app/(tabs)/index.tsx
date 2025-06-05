@@ -3,10 +3,12 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useGame } from '@/contexts/GameContext';
 import { QrCode, X } from 'lucide-react-native';
+import { useNavigationState } from '@react-navigation/native';
 
 export default function StartScreen() {
   const router = useRouter();
   const { resetGame, flags } = useGame();
+  const navState = useNavigationState(s => s);      // Get full navigation state
 
   /* ---------- PRZYCISK SCAN ---------- */
   const goToScanner = () => router.push('/(tabs)/scanner');
@@ -33,6 +35,13 @@ export default function StartScreen() {
         <X size={24} color="#fff" style={styles.icon} />
         <Text style={styles.text}>End game</Text>
       </TouchableOpacity>
+
+      {/* Debug navigation state */}
+      {__DEV__ && (
+        <Text style={{ position: 'absolute', bottom: 40, fontSize: 10 }}>
+          {JSON.stringify(navState?.routes?.map(r => r.name))}
+        </Text>
+      )}
     </View>
   );
 }
