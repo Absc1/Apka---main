@@ -1,11 +1,11 @@
 // app/(tabs)/index.tsx
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 import { useGame } from '@/contexts/GameContext';
 import { QrCode, X } from 'lucide-react-native';
 
 export default function StartScreen() {
-  const navigation = useNavigation();
+  const router = useRouter();
   const { resetGame, flags } = useGame();
 
   /* ---------- PRZYCISK SCAN ---------- */
@@ -17,10 +17,7 @@ export default function StartScreen() {
     await resetGame();                           // zeruj stan
     console.log('--- PO resetGame, nawiguję');   // ②
 
-    navigation.reset({
-      index: 0,
-      routes: [{ name: '/' }],
-    });
+    router.replace('/');             // 2) przechodzimy do MENU
   };
 
   return (
