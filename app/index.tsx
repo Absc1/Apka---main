@@ -1,79 +1,39 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useGame } from '@/contexts/GameContext';
 import { Play } from 'lucide-react-native';
-import { useEffect } from 'react';
+import { useGame } from '@/contexts/GameContext';
 
 export default function MenuScreen() {
   const router = useRouter();
   const { resetGame } = useGame();
 
-  useEffect(() => {
-    console.log('💡 MenuScreen MOUNTED (app/index.tsx)');
-  }, []);
-
   const handleStartNewGame = async () => {
-    console.log('Starting new game...');
     await resetGame();
-    console.log('Game reset complete, navigating to game screen...');
-    router.push('/start');
+    router.replace('/(tabs)');        // ⬅️ przenosi od razu do zakładek
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: '#FFEB3B' }]}>
-      <View style={styles.header}>
-        <Text style={[styles.title, { color: '#000' }]}>MENU!</Text>
-        <Text style={styles.subtitle}>
-          Explore the world through QR codes
-        </Text>
-      </View>
+    <View style={styles.container}>
+      <Text style={styles.title}>MENU</Text>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleStartNewGame}>
-        <Play size={24} color="#fff" style={styles.buttonIcon} />
-        <Text style={styles.buttonText}>Start New Game</Text>
+      <TouchableOpacity style={styles.button} onPress={handleStartNewGame}>
+        <Play size={24} color="#fff" style={{ marginRight: 8 }} />
+        <Text style={styles.buttonText}>Start new game</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'center',
-  },
-  header: {
-    alignItems: 'center',
-    marginBottom: 40,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: '700',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 18,
-    color: '#666',
-    textAlign: 'center',
-    maxWidth: '80%',
-  },
+  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24 },
+  title: { fontSize: 32, fontWeight: '700', marginBottom: 32 },
   button: {
     backgroundColor: '#007AFF',
+    borderRadius: 12,
     paddingVertical: 16,
     paddingHorizontal: 24,
-    borderRadius: 12,
-    alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'center',
+    alignItems: 'center',
   },
-  buttonIcon: {
-    marginRight: 8,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
-  },
+  buttonText: { color: '#fff', fontSize: 18, fontWeight: '600' },
 });
