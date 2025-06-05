@@ -141,7 +141,7 @@
       ]
     },
     {
-      "text": "Hej, młody, chcesz coś do picia?\n\n[[Pewnie!]]\n[[Słyszałaś o kuzynie kowala?|IF_know_about_missing_cousin]]\n",
+      "text": "Hej, młody, chcesz coś do picia?\n\n[[Pewnie!]]\n[[Słyszałaś o kuzynie kowala?]]\n",
       "links": [
         {
           "name": "Pewnie!",
@@ -149,9 +149,9 @@
           "pid": "11"
         },
         {
-          "name": "Słyszałaś o kuzynie kowala?|IF_know_about_missing_cousin",
-          "link": "Słyszałaś o kuzynie kowala?|IF_know_about_missing_cousin",
-          "broken": true
+          "name": "Słyszałaś o kuzynie kowala?",
+          "link": "Słyszałaś o kuzynie kowala?",
+          "pid": "14"
         }
       ],
       "name": "Karczmarka",
@@ -183,13 +183,25 @@
       }
     },
     {
-      "text": "Ciśś, nie tutaj!",
+      "text": "",
       "name": "IF_know_about_missing_cousin",
       "pid": "13",
       "position": {
-        "x": "1200",
-        "y": "875"
+        "x": "1475",
+        "y": "950"
       }
+    },
+    {
+      "text": "Ciśś, nie tutaj!",
+      "name": "Słyszałaś o kuzynie kowala?",
+      "pid": "14",
+      "position": {
+        "x": "1100",
+        "y": "775"
+      },
+      "tags": [
+        "IF_know_about_missing_cousin"
+      ]
     }
   ],
   "name": "Scenariusz testowy",
