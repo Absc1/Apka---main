@@ -1,38 +1,41 @@
 // app/(tabs)/index.tsx
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';          // ⬅️   useRouter, nie useNavigation
 import { useGame } from '@/contexts/GameContext';
 import { QrCode, X } from 'lucide-react-native';
 
 export default function StartScreen() {
-  const navigation = useNavigation();
-  const { resetGame, flags } = useGame();
+  const router     = useRouter();
+  const { resetGame } = useGame();
 
-  /* ---------- PRZYCISK SCAN ---------- */
+  /** ------------------ Scan QR ------------------ **/
   const goToScanner = () => router.push('/(tabs)/scanner');
 
-  /* ---------- PRZYCISK END GAME ---------- */
+  /** ------------------ End game ----------------- **/
   const endGame = async () => {
-    console.log('--- KLIK: End game');          // ①
-    await resetGame();                           // zeruj stan
-    console.log('--- PO resetGame, nawiguję');   // ②
-
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'index' }],    // ← zamiast "/"
-    });
+    console.log('--- KLIK: End game');
+    await resetGame();                    // zeruj flagi, visited, storage
+    console.log('--- PO resetGame, nawiguję ▶ MENU');
+    // odroczone o 0 ms, żeby React dokończył render
+    setTimeout(() => router.replace('/'), 0);
   };
 
   return (
     <View style={styles.container}>
-      {/* ---- Scan QR ---- */}
-      <TouchableOpacity style={[styles.button, styles.primary]} onPress={goToScanner}>
+      {/* Scan */}
+      <TouchableOpacity
+        style={[styles.button, styles.primary]}
+        onPress={goToScanner}
+      >
         <QrCode size={24} color="#fff" style={styles.icon} />
         <Text style={styles.text}>Scan QR code</Text>
       </TouchableOpacity>
 
-      {/* ---- End game ---- */}
-      <TouchableOpacity style={[styles.button, styles.danger]} onPress={endGame}>
+      {/* End game */}
+      <TouchableOpacity
+        style={[styles.button, styles.danger]}
+        onPress={endGame}
+      >
         <X size={24} color="#fff" style={styles.icon} />
         <Text style={styles.text}>End game</Text>
       </TouchableOpacity>
@@ -51,7 +54,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   primary: { backgroundColor: '#34C759' },
-  danger: { backgroundColor: '#FF3B30' },
-  text: { color: '#fff', fontSize: 18, fontWeight: '600' },
-  icon: { marginRight: 8 },
+  danger:  { backgroundColor: '#FF3B30' },
+  text:    { color: '#fff', fontSize: 18, fontWeight: '600' },
+  icon:    { marginRight: 8 },
 });
