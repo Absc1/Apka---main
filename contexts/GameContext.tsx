@@ -45,12 +45,17 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
 
   /** --------- reset całej gry --------- */
   const resetGame = async () => {
-    console.log('RESET GAME!');
-    setFlags(new Set());
-    setVisited(new Set());
-    setSessionId(Date.now().toString());        // wymusza remount
-    await AsyncStorage.removeItem(STORAGE_KEY); // czysty storage
-  };
+  console.log('RESET GAME!');
+  setFlags(new Set());
+  setVisited(new Set());
+  await AsyncStorage.removeItem(STORAGE_KEY);
+
+  // ① wymuś NOWĄ sesję (remount całej appki)
+  setSessionId(Date.now().toString());
+
+  // ② ustaw docelową trasę, gdy nowy stack już powstanie
+  setTimeout(() => router.replace('/'), 0);
+};
 
   /** --------- jednorazowe wczytanie zapisu --------- */
   useEffect(() => {
