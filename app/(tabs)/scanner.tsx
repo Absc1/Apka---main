@@ -81,17 +81,15 @@ export default function ScannerScreen() {
 
   /* -------- filtr linków wg tagu IF_... w węźle docelowym -------- */
   const filterLinks = (links = []) =>
-    links.filter(l => {
-      const target =
-        passagesByPid[l.pid] ??
-        passagesByName[l.link] ??
-        passagesByName[l.name];
+  links.filter(l => {
+    const target =
+      passagesByPid[l.pid] ??
+      passagesByName[l.link] ??
+      passagesByName[l.name];
 
-      const condTag = target?.tags?.find(t => t.startsWith('IF_'));
-      const cond    = condTag ? condTag.slice(3) : undefined;
-
-      return !cond || flags.has(cond);
-    });
+    const conds = target?.tags?.filter(t => t.startsWith('IF_')) ?? [];
+    return conds.every(tag => flags.has(tag.slice(3)));
+  });
 
   const returnToScanning = () => router.back();
 
