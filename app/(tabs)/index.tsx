@@ -8,23 +8,27 @@ export default function StartScreen() {
   const router = useRouter();
   const { resetGame } = useGame();
 
+  /* ---------- PRZYCISK SCAN ---------- */
   const goToScanner = () => router.push('/(tabs)/scanner');
 
- const endGame = async () => {
-  await resetGame();                            // wyczyść flagi, visited, storage
-  router.reset({                                // ⇦ wyrzuć cały stary stos
-    index: 0,
-    routes: [{ name: '/' }],                    // jedyny ekran = MENU
-  });
-};
+  /* ---------- PRZYCISK END GAME ---------- */
+  const endGame = async () => {
+    await resetGame();                       // 1) zeruj stan gry
+    router.reset({                           // 2) wyrzuć stary stos
+      index: 0,
+      routes: [{ name: '/' }],               // jedyny pozostały ekran = MENU
+    });
+  };
 
   return (
     <View style={styles.container}>
+      {/* ---- Scan QR ---- */}
       <TouchableOpacity style={[styles.button, styles.primary]} onPress={goToScanner}>
         <QrCode size={24} color="#fff" style={styles.icon} />
         <Text style={styles.text}>Scan QR code</Text>
       </TouchableOpacity>
 
+      {/* ---- End game ---- */}
       <TouchableOpacity style={[styles.button, styles.danger]} onPress={endGame}>
         <X size={24} color="#fff" style={styles.icon} />
         <Text style={styles.text}>End game</Text>
