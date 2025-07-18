@@ -6,32 +6,24 @@
         {
           "name": "Chcę zacząć pracę jako czeladnik",
           "link": "Chcę zacząć pracę jako czeladnik",
-          "pid": "3"
+          "pid": "2"
         },
         {
           "name": "Chcę dostać miecz",
           "link": "Chcę dostać miecz",
-          "pid": "4"
+          "pid": "3"
         }
       ],
       "name": "Kowal",
       "pid": "1",
       "position": {
-        "x": "850",
-        "y": "375"
+        "x": "1600",
+        "y": "950"
       },
       "tags": [
-        "QR1"
+        "QR1",
+        "IMG_Rastan_Neutral"
       ]
-    },
-    {
-      "text": "qweqwe",
-      "name": "qq",
-      "pid": "2",
-      "position": {
-        "x": "2600",
-        "y": "200"
-      }
     },
     {
       "text": "Nie mam teraz czasu.\n\n[[Ok, nie przeszkadzam]]\n[[Coś się stało?]]",
@@ -39,19 +31,19 @@
         {
           "name": "Ok, nie przeszkadzam",
           "link": "Ok, nie przeszkadzam",
-          "pid": "5"
+          "pid": "4"
         },
         {
           "name": "Coś się stało?",
           "link": "Coś się stało?",
-          "pid": "6"
+          "pid": "5"
         }
       ],
       "name": "Chcę zacząć pracę jako czeladnik",
-      "pid": "3",
+      "pid": "2",
       "position": {
-        "x": "1150",
-        "y": "550"
+        "x": "1875",
+        "y": "1225"
       }
     },
     {
@@ -60,23 +52,26 @@
         {
           "name": "Sam idź!",
           "link": "Sam idź!",
-          "pid": "9"
+          "pid": "7"
         }
       ],
       "name": "Chcę dostać miecz",
-      "pid": "4",
+      "pid": "3",
       "position": {
-        "x": "1125",
-        "y": "200"
-      }
+        "x": "1875",
+        "y": "900"
+      },
+      "tags": [
+        "Rastan_zły"
+      ]
     },
     {
       "text": "",
       "name": "Ok, nie przeszkadzam",
-      "pid": "5",
+      "pid": "4",
       "position": {
-        "x": "1475",
-        "y": "725"
+        "x": "2000",
+        "y": "1450"
       }
     },
     {
@@ -85,59 +80,48 @@
         {
           "name": "Jak to zniknął?",
           "link": "Jak to zniknął?",
-          "pid": "7"
+          "pid": "6"
         }
       ],
       "name": "Coś się stało?",
-      "pid": "6",
+      "pid": "5",
       "position": {
-        "x": "1450",
-        "y": "525"
+        "x": "2075",
+        "y": "1250"
       }
     },
     {
-      "text": "Nie zjawił się wczoraj w pracy - nikt nie widział go od rzech dni.\n\n[[Poszukam go wobec tego! (FLAG)]]\n[[NIe interesuje mnie, gdzie podział się twój kuzyn!]]",
+      "text": "Nie zjawił się wczoraj w pracy - nikt nie widział go od rzech dni.\n\n[[Poszukam go wobec tego!]]\n[[NIe interesuje mnie, gdzie podział się twój kuzyn!]]",
       "links": [
         {
-          "name": "Poszukam go wobec tego! (FLAG)",
-          "link": "Poszukam go wobec tego! (FLAG)",
-          "pid": "8"
+          "name": "Poszukam go wobec tego!",
+          "link": "Poszukam go wobec tego!",
+          "pid": "12"
         },
         {
           "name": "NIe interesuje mnie, gdzie podział się twój kuzyn!",
           "link": "NIe interesuje mnie, gdzie podział się twój kuzyn!",
-          "pid": "12"
+          "pid": "10"
         }
       ],
       "name": "Jak to zniknął?",
-      "pid": "7",
+      "pid": "6",
       "position": {
-        "x": "1625",
-        "y": "425"
+        "x": "2250",
+        "y": "1275"
       }
-    },
-    {
-      "text": "Dzięki! Zacznij od pogadania karczmarką!",
-      "name": "Poszukam go wobec tego! (FLAG)",
-      "pid": "8",
-      "position": {
-        "x": "1925",
-        "y": "375"
-      },
-      "tags": [
-        "SET_know_about_missing_cousin"
-      ]
     },
     {
       "text": "Wygląda na to, że trzeba złoić ci skórę.",
       "name": "Sam idź!",
-      "pid": "9",
+      "pid": "7",
       "position": {
-        "x": "1375",
-        "y": "200"
+        "x": "2050",
+        "y": "950"
       },
       "tags": [
-        "IMG_Angry_Kowal"
+        "IMG_Angry_Kowal",
+        "Rastan_idzie_przywalić"
       ]
     },
     {
@@ -146,19 +130,19 @@
         {
           "name": "Pewnie!",
           "link": "Pewnie!",
-          "pid": "11"
+          "pid": "9"
         },
         {
           "name": "Słyszałaś o kuzynie kowala?",
           "link": "Słyszałaś o kuzynie kowala?",
-          "pid": "14"
+          "pid": "11"
         }
       ],
       "name": "Karczmarka",
-      "pid": "10",
+      "pid": "8",
       "position": {
-        "x": "875",
-        "y": "1000"
+        "x": "1850",
+        "y": "600"
       },
       "tags": [
         "QR2"
@@ -167,37 +151,40 @@
     {
       "text": "Dwa złote!",
       "name": "Pewnie!",
-      "pid": "11",
+      "pid": "9",
       "position": {
-        "x": "1200",
-        "y": "1025"
+        "x": "2175",
+        "y": "625"
       }
     },
     {
       "text": "Jeszcze jeden nieczuły młokos!",
       "name": "NIe interesuje mnie, gdzie podział się twój kuzyn!",
-      "pid": "12",
+      "pid": "10",
       "position": {
-        "x": "1875",
-        "y": "575"
-      }
-    },
-    {
-      "text": "",
-      "name": "IF_know_about_missing_cousin",
-      "pid": "13",
-      "position": {
-        "x": "1475",
-        "y": "950"
+        "x": "2500",
+        "y": "1325"
       }
     },
     {
       "text": "Ciśś, nie tutaj!",
       "name": "Słyszałaś o kuzynie kowala?",
-      "pid": "14",
+      "pid": "11",
       "position": {
-        "x": "1100",
-        "y": "775"
+        "x": "2075",
+        "y": "375"
+      },
+      "tags": [
+        "IF_know_about_missing_cousin"
+      ]
+    },
+    {
+      "text": "Dzięki! Zacznij od pogadania karczmarką!",
+      "name": "Poszukam go wobec tego!",
+      "pid": "12",
+      "position": {
+        "x": "2375",
+        "y": "1125"
       },
       "tags": [
         "IF_know_about_missing_cousin"
