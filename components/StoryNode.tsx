@@ -1,5 +1,5 @@
-// components/StoryNode.tsx
 import { Image, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { IMAGES } from '@/assets/images';
 
 interface Link {
   name: string;
@@ -8,11 +8,11 @@ interface Link {
 }
 
 interface StoryNodeProps {
-  text:      string;
-  links:     Link[];
+  text:           string;
+  links:          Link[];
   onChoiceSelect: (pid: string, linkText: string) => void;
-  name?:   string;
-  image?:  string;            // nazwa pliku bez rozszerzenia, np. "kowal"
+  name?:  string;
+  image?: string;   // nazwa pliku bez rozszerzenia, zgodna z kluczem w IMAGES
 }
 
 export default function StoryNode({
@@ -22,17 +22,14 @@ export default function StoryNode({
   name,
   image,
 }: StoryNodeProps) {
-
-  const cleanText = text.replace(/\[\[.*?\]\]/g, '');
-
+  const cleanText     = text.replace(/\[\[.*?\]\]/g, '');
   const cleanLinkText = (raw: string) => raw.split('|')[0];
 
   return (
     <View style={styles.container}>
-      {/* tło – jeśli węzeł ma tag IMG_foo, parent przekaże "foo" */}
-      {image && (
+      {image && IMAGES[image] && (
         <Image
-          source={require(`@/assets/images/${image}.png`)}
+          source={IMAGES[image]}
           style={styles.bg}
           resizeMode="cover"
         />
