@@ -1,4 +1,3 @@
-// app/(tabs)/scanner.tsx
 import { useState, useEffect } from 'react';
 import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
@@ -10,16 +9,18 @@ import { useGame } from '@/contexts/GameContext';
 import { QrCode } from 'lucide-react-native';
 
 /* -------- mapy węzłów -------- */
-const passagesByPid   = Object.fromEntries(
-  scenario.passages.map(p => [p.pid, p]),
-);
-const passagesByName  = Object.fromEntries(
-  scenario.passages.map(p => [p.name, p]),
-);
+const passagesByPid  = Object.fromEntries(scenario.passages.map(p => [p.pid,  p]));
+const passagesByName = Object.fromEntries(scenario.passages.map(p => [p.name, p]));
+
+/* -------- pomocnik: pierwszy tag IMG_foo => "foo" -------- */
+const imageFromTags = (tags?: string[]) => {
+  const tag = tags?.find(t => t.startsWith('IMG_'));
+  return tag ? tag.slice(4) : undefined;
+};
 
 export default function ScannerScreen() {
   const [permission, requestPermission] = useCameraPermissions();
-  const [scanned, setScanned] = useState(false);
+  const [scanned, setScanned]           = useState(false);
   const [currentPassage, setCurrentPassage] = useState(null);
   const [initialNodeName, setInitialNodeName] = useState(null);
 
@@ -43,8 +44,8 @@ export default function ScannerScreen() {
 
   /* -------- znajdź węzeł po tagu QRn -------- */
   const findPassageByTag = (tag: string) =>
-    scenario.passages.find(
-      p => p.tags?.some(t => t.trim().toLowerCase() === tag.trim().toLowerCase()),
+    scenario.passages.find(p =>
+      p.tags?.some(t => t.trim().toLowerCase() === tag.trim().toLowerCase()),
     );
 
   /* -------- obsługa skanu -------- */
@@ -68,9 +69,8 @@ export default function ScannerScreen() {
       scenario.passages.find(p => p.pid === pid) ??
       scenario.passages.find(p => p.name === linkText.split('|')[0]);
 
-    if (!next) {
-      console.log('No matching passage found!'); return;
-    }
+    if (!next) { console.log('No matching passage found!'); return; }
+
     setCurrentPassage(next);
     addVisitedNode(next.pid);
 
@@ -81,15 +81,15 @@ export default function ScannerScreen() {
 
   /* -------- filtr linków wg tagu IF_... w węźle docelowym -------- */
   const filterLinks = (links = []) =>
-  links.filter(l => {
-    const target =
-      passagesByPid[l.pid] ??
-      passagesByName[l.link] ??
-      passagesByName[l.name];
+    links.filter(l => {
+      const target =
+        passagesByPid[l.pid] ??
+        passagesByName[l.link] ??
+        passagesByName[l.name];
 
-    const conds = target?.tags?.filter(t => t.startsWith('IF_')) ?? [];
-    return conds.every(tag => flags.has(tag.slice(3)));
-  });
+      const conds = target?.tags?.filter(t => t.startsWith('IF_')) ?? [];
+      return conds.every(tag => flags.has(tag.slice(3)));
+    });
 
   const returnToScanning = () => router.back();
 
@@ -118,8 +118,10 @@ export default function ScannerScreen() {
               links={filterLinks(currentPassage.links)}
               onChoiceSelect={handleChoiceSelect}
               name={initialNodeName || currentPassage.name}
+              image={imageFromTags(currentPassage.tags)}
             />
           )}
+
           {(!currentPassage?.links || currentPassage.links.length === 0) && (
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.button} onPress={returnToScanning}>
@@ -137,25 +139,15 @@ export default function ScannerScreen() {
 const styles = StyleSheet.create({
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   dialogContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 24,
-    backgroundColor: '#fff',
+    flex: 1, justifyContent: 'center', alignItems: 'center',
+    padding: 24, backgroundColor: '#fff',
   },
   buttonContainer: {
-    width: '100%',
-    maxWidth: 500,
-    gap: 12,
-    marginTop: 20,
+    width: '100%', maxWidth: 500, gap: 12, marginTop: 20,
   },
   button: {
-    backgroundColor: '#007AFF',
-    paddingVertical: 16,
-    paddingHorizontal: 24,
-    borderRadius: 12,
-    alignItems: 'center',
-    flexDirection: 'row',
+    backgroundColor: '#007AFF', paddingVertical: 16, paddingHorizontal: 24,
+    borderRadius: 12, alignItems: 'center', flexDirection: 'row',
     justifyContent: 'center',
   },
   buttonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
